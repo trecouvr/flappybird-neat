@@ -1,0 +1,2 @@
+gevent
+-e git+https://github.com/neat-python/neat-python.git@5034289cfed50306a158292807012d874e696dad#egg=neat_python-master
