@@ -29,8 +29,8 @@ class EchoApplication(WebSocketApplication):
         clients.remove(self.ws)
 
 
-def load():
-    with open('winner_chromosome', 'rb') as f:
+def load(filename):
+    with open(filename, 'rb') as f:
         winner = pickle.load(f)
     while True:
         eval_fitness([winner])
@@ -114,10 +114,17 @@ def eval_fitness(population):
 
 
 if __name__ == '__main__':
+    import argparse
     config.load('brain_config')
 
-    #gevent.spawn(main)
-    gevent.spawn(load)
+    parser = argparse.ArgumentParser(description='Play flappybird.')
+    parser.add_argument('--load', help='Load a chromosome')
+    args = parser.parse_args()
+
+    if args.load:
+        gevent.spawn(load, args.load)
+    else:
+        gevent.spawn(main)
 
     WebSocketServer(
         ('0.0.0.0', 4000),
